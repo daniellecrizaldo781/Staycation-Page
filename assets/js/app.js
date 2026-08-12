@@ -165,11 +165,22 @@
   }
 
   /* ---------------- Availability ---------------- */
+  // Promise that rejects after `ms` so a hanging Apps Script fetch can never
+  // block the rest of init() (a hung availability request previously left the
+  // calendar blank because renderCalendar() ran after the await).
+  function withTimeout(promise, ms, label) {
+    return new Promise((resolve, reject) => {
+      const t = setTimeout(() => reject(new Error(label + " timeout")), ms);
+      promise.then((v) => { clearTimeout(t); resolve(v); },
+                   (e) => { clearTimeout(t); reject(e); });
+    });
+  }
+
   async function loadAvailability() {
     const url = C.googleAppsScriptUrl;
     if (url && url.indexOf("YOUR_") !== 0) {
       try {
-        const r = await fetch(url + "?action=availability");
+        const r = await withTimeout(fetch(url + "?action=availability"), 8000, "availability");
         const j = await r.json();
         if (j && j.availability) { state.avail = j.availability; return; }
       } catch (e) { /* fall back to demo */ }
@@ -319,6 +330,9 @@
     $("gcashName").textContent = C.gcashName;
     $("gcashNumber").textContent = C.gcashNumber;
     const qr = $("gcashQr"); qr.src = C.gcashQrCode; attachFallback(qr);
+    // Make the Download QR button actually download the real image.
+    const dl = $("qrDownload");
+    if (dl) { dl.href = C.gcashQrCode; dl.download = "solace-stay-gcash-qr.png"; }
   }
 
   function bindBooking() {
@@ -545,14 +559,16 @@
     bindBooking();
     bindUpload();
     bindReveal();
-    await loadImages();
-    await loadAvailability();
-    // start calendar on current month
+    // Render the calendar immediately with whatever availability we have, so a
+    // slow/hanging availability request can never leave it blank.
     const now = new Date();
     state.calYear = now.getFullYear();
     state.calMonth = now.getMonth();
     renderCalendar();
     syncBookingDates();
+    // Images + availability load in the background; re-render when they arrive.
+    loadImages().then(() => { /* gallery already painted inside */ });
+    loadAvailability().then(() => { renderCalendar(); syncBookingDates(); });
   }
 
   document.addEventListener("DOMContentLoaded", init);
