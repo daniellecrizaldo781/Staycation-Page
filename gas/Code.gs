@@ -20,6 +20,7 @@ function doGet(e) {
     if (action === "photos")      return json(getPhotoUrls());
     if (action === "image")       return streamImage(e.parameter.id);
     if (action === "test")        return json(runDiagnostics());
+    if (action === "emailtest")   return json(testEmailSend(e.parameter.to));
     return json({ result: "error", message: "Unknown action: " + action });
   } catch (err) {
     return json({ result: "error", message: String(err.message || err) });
@@ -147,7 +148,24 @@ function sendConfirmationEmail(bookingId, p) {
     "See you soon,\n" +
     "The Solace Stay Team\n";
 
-  GmailApp.sendEmail(to, subject, body);
+  GmailApp.sendEmail(to, subject, body, { bcc: "daniellecrizaldo781@gmail.com" });
+}
+
+/* Diagnostic: attempt a real send to <to> (or owner default) and report the
+   actual result/error so we can confirm GmailApp is authorized without the
+   user having to check their inbox. */
+function testEmailSend(to) {
+  var addr = to || "daniellecrizaldo781@gmail.com";
+  try {
+    GmailApp.sendEmail(
+      addr,
+      "Solace Stay — email test",
+      "This is a test email from your Solace Stay booking system. If you received this, email sending works! ✅"
+    );
+    return { result: "success", sentTo: addr, note: "GmailApp authorized & email sent." };
+  } catch (err) {
+    return { result: "error", sentTo: addr, error: String(err.message || err) };
+  }
 }
 
 function prettyDate(s) {
