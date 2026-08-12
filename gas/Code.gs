@@ -1,20 +1,18 @@
 /* =========================================================================
  *  SOLACE STAY — Google Apps Script Web App (backend)
- *  BEST PRACTICE: open the booking Sheet -> Extensions -> Apps Script,
- *  paste this code there (it becomes BOUND to the sheet), then
- *  Deploy -> New deployment -> Web app -> Execute as: Me -> Who has access: Anyone.
- *  Binding means the script uses the live sheet directly (no fragile ID lookup).
+ *  Bound to your "Booking" sheet. Deploy -> Web app ->
+ *  Execute as: Me -> Who has access: Anyone.
+ *
+ *  Booking row layout (matches the owner's sheet, 12 columns A-L):
+ *   A Customer Name | B Booking Date | C Name | D Number | E Email
+ *   F Date of checkin | G Date of Checkout | H Days of Stay | I Cost
+ *   J Payment | K Payment received? | L Booked:
  * ========================================================================= */
 
 var SHEET_ID   = "1bV9TZDYtN3zYZCH3mI4QAYDj8SXXg0YVn_ljEEw9mw"; // fallback only
 var FOLDER_ID  = "1A_i2JPbsx5AIMyfI2ixaLnQnnHL1QI7-";           // receipt folder
 var PHOTO_FOLDER_ID = "1rheaEncio4QZrT96OK0hmgj9L01VxI-a";      // photo folder
 
-var HEADERS = ["Booking ID","Timestamp","Name","Phone","Email","Check-in",
-               "Check-out","Nights","Fee","Payment Method","Payment Status",
-               "Receipt File Name","Receipt Drive Link","Booking Status","Notes"];
-
-/* ----------------------------- Entry point ----------------------------- */
 function doGet(e) {
   var action = (e.parameter.action || "").toLowerCase();
   try {
@@ -39,17 +37,12 @@ function doPost(e) {
   }
 }
 
-/* ----------------------------- Diagnostics ----------------------------- */
 function runDiagnostics() {
   var d = {};
   try {
     var bs = SpreadsheetApp.getActiveSpreadsheet();
     d.boundSheet = bs ? ("OK — " + bs.getName()) : "null (script not bound to a sheet)";
   } catch (e) { d.boundSheet = "ERR — " + e.message; }
-  try {
-    var ss = SpreadsheetApp.openById(SHEET_ID);
-    d.sheetById = "OK — " + ss.getName();
-  } catch (e) { d.sheetById = "ERR — " + e.message; }
   try { DriveApp.getFolderById(FOLDER_ID); d.receiptFolder = "OK"; }
   catch (e) { d.receiptFolder = "ERR — " + e.message; }
   try { DriveApp.getFolderById(PHOTO_FOLDER_ID); d.photoFolder = "OK"; }
@@ -57,17 +50,16 @@ function runDiagnostics() {
   return { result: "success", diagnostics: d };
 }
 
-/* ----------------------------- Availability ----------------------------- */
 function computeAvailability() {
   var sheet = getSheet();
   var rows = sheet.getDataRange().getValues();
   var avail = {};
   for (var i = 1; i < rows.length; i++) {
-    var status = (rows[i][13] || "").toString().trim().toLowerCase();
-    var ci = rows[i][5];
-    var co = rows[i][6];
+    var status = (rows[i][11] || "").toString().trim().toLowerCase(); // col L "Booked:"
+    var ci = rows[i][5];  // col F check-in
+    var co = rows[i][6];  // col G check-out
     if (!ci || !co) continue;
-    var kind = (status === "confirmed" || status === "completed") ? "booked"
+    var kind = (status === "booked" || status === "confirmed" || status === "completed") ? "booked"
              : (status === "pending" || status === "cancelled") ? "pending"
              : null;
     if (!kind) continue;
@@ -82,7 +74,6 @@ function computeAvailability() {
   return { result: "success", availability: avail };
 }
 
-/* ----------------------------- Booking ----------------------------- */
 function handleBooking(e) {
   var p = e.parameter;
   var receiptLink = "";
@@ -93,41 +84,37 @@ function handleBooking(e) {
     var folder = DriveApp.getFolderById(FOLDER_ID);
     var file = folder.createFile(blob);
     file.setName((p.bookingId || "receipt") + "_" + receiptName);
-    receiptLink = file.getUrl();
+    receiptLink = file.getUrl(); // stored in Drive (sheet has no receipt column)
   }
 
   var sheet = getSheet();
+  // Only these 12 columns are filled, and only when a customer books.
   var row = [
-    p.bookingId || "",
-    new Date(),
-    p.name || "",
-    p.phone || "",
-    p.email || "",
-    p.checkin || "",
-    p.checkout || "",
-    p.nights || "",
-    p.fee || "",
-    p.paymentMethod || "GCash",
-    "Pending Review",
-    receiptName,
-    receiptLink,
-    "Pending",
-    ""
+    p.bookingId || "",            // A Customer Name (booking id)
+    new Date(),                   // B Booking Date
+    p.name || "",                 // C Name
+    p.phone || "",                // D Number
+    p.email || "",                // E Email
+    p.checkin || "",              // F Date of checkin
+    p.checkout || "",             // G Date of Checkout
+    p.nights || "",               // H Days of Stay
+    p.fee || "",                  // I Cost
+    p.paymentMethod || "GCash",   // J Payment
+    "Pending Review",             // K Payment received?
+    "Pending"                     // L Booked:
   ];
   sheet.appendRow(row);
 
   return { result: "success", bookingId: p.bookingId, receiptLink: receiptLink };
 }
 
-/* ----------------------------- Photos ----------------------------- */
 function getPhotoUrls() {
-  var scriptUrl = ScriptApp.getService().getUrl(); // this Web App's own URL
+  var scriptUrl = ScriptApp.getService().getUrl();
   var folder = DriveApp.getFolderById(PHOTO_FOLDER_ID);
   var files = folder.getFiles();
   var out = [];
   while (files.hasNext()) {
     var f = files.next();
-    // Route through the backend so browsers can render (no Google interstitial).
     out.push(scriptUrl + "?action=image&id=" + f.getId());
   }
   return { result: "success", images: out };
@@ -148,17 +135,11 @@ function streamImage(id) {
   }
 }
 
-/* ----------------------------- Helpers ----------------------------- */
 function getSheet() {
   var ss = null;
   try { ss = SpreadsheetApp.getActiveSpreadsheet(); } catch (e) {}
   if (!ss) { ss = SpreadsheetApp.openById(SHEET_ID); }
-  var sheet = ss.getSheets()[0];
-  if (sheet.getLastRow() === 0) {
-    sheet.appendRow(HEADERS);
-    sheet.setFrozenRows(1);
-  }
-  return sheet;
+  return ss.getSheets()[0]; // owner manages the headers
 }
 
 function dateKey(d) {
