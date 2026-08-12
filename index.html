@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solace Stay — Your Little Escape Awaits</title>
+  <meta name="description" content="Solace Stay — a cozy boutique staycation designed for rest, comfort & unforgettable moments." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/styles.css?v=20260812a" />
+</head>
+<body>
+
+  <!-- ===================== NAVBAR ===================== -->
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="#home" class="nav__logo">Solace <span>Stay</span></a>
+      <nav class="nav__links" id="navLinks">
+        <a href="#home" class="nav__link">Home</a>
+        <a href="#space" class="nav__link">Our Space</a>
+        <a href="#gallery" class="nav__link">Gallery</a>
+        <a href="#dates" class="nav__link">Available Dates</a>
+        <a href="#book" class="nav__link">Book Now</a>
+        <a href="#contact" class="nav__link">Contact</a>
+        <a href="#book" class="btn btn--gold nav__cta">BOOK YOUR STAY</a>
+      </nav>
+      <button class="nav__burger" id="navBurger" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero" id="home">
+    <div class="hero__media">
+      <img class="hero__img" id="heroImg" alt="Solace Stay" />
+    </div>
+    <div class="hero__overlay"></div>
+    <div class="hero__content reveal">
+      <p class="hero__eyebrow">Boutique Staycation</p>
+      <h1 class="hero__title">Your Little Escape Awaits.</h1>
+      <p class="hero__subtitle">Slow down. Stay awhile. Make yourself at home.</p>
+      <p class="hero__line" id="heroIntro"></p>
+      <div class="hero__actions">
+        <a href="#book" class="btn btn--gold btn--lg">BOOK YOUR STAY</a>
+        <a href="#space" class="btn btn--ghost btn--lg">EXPLORE THE SPACE</a>
+      </div>
+      <p class="hero__loc" id="heroLoc"></p>
+    </div>
+    <a href="#intro" class="hero__scroll" aria-label="Scroll down">↓</a>
+  </section>
+
+  <!-- ===================== INTRO ===================== -->
+  <section class="intro section" id="intro">
+    <div class="intro__grid">
+      <div class="intro__text reveal">
+        <p class="eyebrow">Welcome</p>
+        <h2 class="section__title">A beautiful space for slow mornings, cozy nights, and memories worth keeping.</h2>
+        <p class="lead">Leave the everyday behind and settle into a space made for comfort, connection, and a little bit of luxury. Solace Stay is your quiet corner to breathe, reconnect, and simply be.</p>
+        <a href="#gallery" class="link-underline">View the gallery →</a>
+      </div>
+      <div class="intro__media reveal">
+        <img id="introImg" alt="A corner of Solace Stay" />
+        <div class="intro__badge">
+          <span class="intro__badge-num" id="badgeNights">3</span>
+          <span class="intro__badge-label">nights minimum,<br/>memories unlimited</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FEATURED PHOTOS STRIP ===================== -->
+  <section class="strip" id="featured">
+    <div class="strip__track" id="stripTrack"></div>
+  </section>
+
+  <!-- ===================== STAY SOMEWHERE BEAUTIFUL ===================== -->
+  <section class="band section">
+    <div class="band__inner reveal center">
+      <p class="eyebrow">The Escape</p>
+      <h2 class="section__title">Stay Somewhere Beautiful.</h2>
+      <p class="lead center">Leave the everyday behind and settle into a space made for comfort, connection, and a little bit of luxury.</p>
+      <a href="#dates" class="btn btn--dark">CHECK AVAILABLE DATES</a>
+    </div>
+  </section>
+
+  <!-- ===================== OUR SPACE ===================== -->
+  <section class="space section" id="space">
+    <div class="reveal center">
+      <p class="eyebrow">Our Space</p>
+      <h2 class="section__title">Everything you need for a relaxing getaway.</h2>
+      <p class="lead center">Thoughtfully prepared, simply comfortable. Here's what's waiting for you.</p>
+    </div>
+    <div class="amenities" id="amenities"></div>
+  </section>
+
+  <!-- ===================== COME FOR THE STAY ===================== -->
+  <section class="band band--alt section">
+    <div class="band__inner reveal center">
+      <p class="eyebrow">The Feeling</p>
+      <h2 class="section__title">Come for the stay. Leave with memories.</h2>
+      <p class="lead center">Cozy, calm, and entirely yours for the weekend.</p>
+    </div>
+  </section>
+
+  <!-- ===================== GALLERY ===================== -->
+  <section class="gallery section" id="gallery">
+    <div class="reveal center">
+      <p class="eyebrow">Gallery</p>
+      <h2 class="section__title">A peek inside Solace Stay.</h2>
+      <p class="lead center">Tap any photo to view it full screen.</p>
+    </div>
+    <div class="gallery__feature reveal">
+      <img id="galleryFeature" alt="Featured view of Solace Stay" />
+    </div>
+    <div class="gallery__grid" id="galleryGrid"></div>
+  </section>
+
+  <!-- ===================== AVAILABLE DATES ===================== -->
+  <section class="dates section" id="dates">
+    <div class="reveal center">
+      <p class="eyebrow">Available Dates</p>
+      <h2 class="section__title">Choose your escape.</h2>
+      <p class="lead center">Green is open, amber is pending, red is booked. Pick your check-in and check-out.</p>
+    </div>
+
+    <div class="calendar" id="calendar">
+      <div class="calendar__head">
+        <button class="calendar__nav" id="calPrev" aria-label="Previous month">‹</button>
+        <h3 class="calendar__month" id="calMonth"></h3>
+        <button class="calendar__nav" id="calNext" aria-label="Next month">›</button>
+      </div>
+      <div class="calendar__legend">
+        <span><i class="dot dot--avail"></i> Available</span>
+        <span><i class="dot dot--pending"></i> Pending</span>
+        <span><i class="dot dot--booked"></i> Booked</span>
+      </div>
+      <div class="calendar__weekdays">
+        <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+      </div>
+      <div class="calendar__days" id="calDays"></div>
+      <p class="calendar__hint" id="calHint"></p>
+
+      <div class="dates__summary" id="datesSummary" hidden>
+        <div class="summary__row"><span>Check-in</span><strong id="sumCheckin">—</strong></div>
+        <div class="summary__row"><span>Check-out</span><strong id="sumCheckout">—</strong></div>
+        <div class="summary__row"><span>Nights</span><strong id="sumNights">0</strong></div>
+        <div class="summary__row summary__row--fee"><span>Reservation Fee</span><strong id="sumFee">₱0</strong></div>
+        <a href="#book" class="btn btn--gold btn--block" id="datesContinue">CONTINUE TO BOOKING</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BOOK NOW (multi-step) ===================== -->
+  <section class="book section" id="book">
+    <div class="reveal center">
+      <p class="eyebrow">Book Your Stay</p>
+      <h2 class="section__title">Ready for your next escape?</h2>
+      <p class="lead center">Choose your dates, reserve your stay, and let the getaway begin.</p>
+    </div>
+
+    <div class="steps" id="steps">
+      <div class="step is-active" data-step="1"><span>1</span> Your Info</div>
+      <div class="step" data-step="2"><span>2</span> Review</div>
+      <div class="step" data-step="3"><span>3</span> Reservation Fee</div>
+    </div>
+
+    <!-- STEP 1 -->
+    <div class="book__panel is-active" id="panel1">
+      <div class="stay-summary" id="staySummary1">
+        <div><span>Check-in</span><strong id="b1Checkin">—</strong></div>
+        <div><span>Check-out</span><strong id="b1Checkout">—</strong></div>
+        <div><span>Nights</span><strong id="b1Nights">0</strong></div>
+      </div>
+      <p class="book__note" id="noDatesNote">No dates selected yet — <a href="#dates">pick your dates first →</a></p>
+
+      <form id="infoForm" novalidate>
+        <div class="field">
+          <label for="fullName">Full Name <span class="req">*</span></label>
+          <input type="text" id="fullName" name="fullName" autocomplete="name" placeholder="Juan Dela Cruz" required />
+        </div>
+        <div class="field">
+          <label for="phone">Phone Number <span class="req">*</span></label>
+          <input type="tel" id="phone" name="phone" autocomplete="tel" placeholder="+63 9XX XXX XXXX" required />
+        </div>
+        <div class="field">
+          <label for="email">Email Address <span class="req">*</span></label>
+          <input type="email" id="email" name="email" autocomplete="email" placeholder="you@email.com" required />
+        </div>
+        <p class="form-error" id="infoError" hidden></p>
+        <button type="submit" class="btn btn--gold btn--block">CONTINUE</button>
+      </form>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="book__panel" id="panel2">
+      <h3 class="book__panel-title">Your Stay</h3>
+      <div class="review">
+        <div class="review__row"><span>Guest</span><strong id="rName">—</strong></div>
+        <div class="review__row"><span>Email</span><strong id="rEmail">—</strong></div>
+        <div class="review__row"><span>Phone</span><strong id="rPhone">—</strong></div>
+        <div class="review__row"><span>Check-in</span><strong id="rCheckin">—</strong></div>
+        <div class="review__row"><span>Check-out</span><strong id="rCheckout">—</strong></div>
+        <div class="review__row"><span>Nights</span><strong id="rNights">0</strong></div>
+        <div class="review__row review__row--fee"><span>Reservation Fee</span><strong id="rFee">₱0</strong></div>
+      </div>
+      <label class="checkbox">
+        <input type="checkbox" id="confirmInfo" />
+        <span>I confirm that the information above is correct.</span>
+      </label>
+      <p class="form-error" id="reviewError" hidden></p>
+      <div class="book__nav">
+        <button class="btn btn--ghost" id="backTo1">BACK</button>
+        <button class="btn btn--gold" id="toPayment">PROCEED TO RESERVATION FEE</button>
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="book__panel" id="panel3">
+      <h3 class="book__panel-title">Reservation Fee — GCash</h3>
+      <div class="pay">
+        <div class="pay__card">
+          <p class="pay__label">Reservation Fee</p>
+          <p class="pay__amount" id="payFee">₱0</p>
+          <div class="pay__gcash">
+            <p><span>GCash Account Name</span><strong id="gcashName">—</strong></p>
+            <p><span>GCash Number</span><strong id="gcashNumber">—</strong></p>
+          </div>
+          <div class="pay__qr">
+            <img id="gcashQr" alt="GCash QR code" />
+            <p class="pay__qr-cap">Scan the QR code using your GCash app to settle your reservation fee.</p>
+          </div>
+          <ol class="pay__steps">
+            <li>Open GCash</li>
+            <li>Scan the QR code</li>
+            <li>Pay the reservation fee</li>
+            <li>Save your payment receipt</li>
+            <li>Upload your receipt below</li>
+          </ol>
+        </div>
+
+        <div class="upload">
+          <h4 class="upload__title">Upload Your Payment Receipt</h4>
+          <p class="upload__desc">Please upload a clear screenshot of your GCash payment confirmation. Your reservation will only be confirmed after the payment has been reviewed.</p>
+          <label class="dropzone" id="dropzone">
+            <input type="file" id="receipt" accept="image/jpeg,image/png,image/webp,application/pdf" hidden />
+            <span class="dropzone__icon">⬆</span>
+            <span class="dropzone__text">Tap to choose a file<br /><small>JPG · JPEG · PNG · WEBP · PDF</small></span>
+          </label>
+          <div class="upload__file" id="uploadFile" hidden>
+            <img class="upload__preview" id="uploadPreview" alt="Receipt preview" hidden />
+            <div class="upload__meta">
+              <span id="uploadName">file.jpg</span>
+              <span class="upload__status" id="uploadStatus"></span>
+            </div>
+            <button class="upload__remove" id="uploadRemove" type="button">Remove</button>
+          </div>
+          <div class="upload__progress" id="uploadProgress" hidden><div class="upload__bar" id="uploadBar"></div></div>
+          <p class="form-error" id="uploadError" hidden></p>
+          <button class="btn btn--gold btn--block" id="submitBooking">SUBMIT RESERVATION</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CONFIRMATION ===================== -->
+  <section class="confirm section" id="confirm" hidden>
+    <div class="confirm__card reveal center">
+      <div class="confirm__mark">✨</div>
+      <h2 class="confirm__title">You're All Set!</h2>
+      <p class="confirm__sub">Your reservation request has been received.</p>
+      <div class="confirm__body">
+        <div class="confirm__row"><span>Booking ID</span><strong id="cId">—</strong></div>
+        <div class="confirm__row"><span>Guest</span><strong id="cName">—</strong></div>
+        <div class="confirm__row"><span>Check-in</span><strong id="cCheckin">—</strong></div>
+        <div class="confirm__row"><span>Check-out</span><strong id="cCheckout">—</strong></div>
+        <div class="confirm__row"><span>Reservation Fee</span><strong id="cFee">₱0</strong></div>
+        <div class="confirm__row confirm__row--status"><span>Payment Status</span><strong class="pill pill--pending">Pending Verification</strong></div>
+      </div>
+      <p class="confirm__msg">We've received your reservation details and payment receipt. Your booking will be confirmed once your payment has been reviewed.</p>
+      <p class="confirm__msg confirm__msg--soft">A confirmation will be sent to your email once your reservation is approved.</p>
+      <a href="#home" class="btn btn--dark btn--block" id="backHome">BACK TO HOME</a>
+    </div>
+  </section>
+
+  <!-- ===================== CONTACT ===================== -->
+  <section class="contact section" id="contact">
+    <div class="contact__grid">
+      <div class="reveal">
+        <p class="eyebrow">Contact</p>
+        <h2 class="section__title">Let's plan your stay.</h2>
+        <p class="lead">Questions before you book? We're happy to help you find the perfect dates.</p>
+        <ul class="contact__list">
+          <li><span>Email</span><a id="cEmail" href="#"></a></li>
+          <li><span>Phone</span><a id="cPhone" href="#"></a></li>
+          <li><span>Location</span><strong id="cLoc"></strong></li>
+          <li><span>Social</span><a id="cSocial" href="#"></a></li>
+        </ul>
+        <a href="#book" class="btn btn--gold">BOOK YOUR STAY</a>
+      </div>
+      <div class="contact__card reveal">
+        <h3>Booking Assistance</h3>
+        <p>Our team typically responds within a few hours. For fastest service, send your preferred dates and we'll confirm availability right away.</p>
+        <a class="link-underline" href="#dates">Check available dates →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <span class="footer__logo">Solace <span>Stay</span></span>
+      <p id="footerLoc"></p>
+      <p class="footer__fine">© <span id="year"></span> Solace Stay. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- ===================== LIGHTBOX ===================== -->
+  <div class="lightbox" id="lightbox" hidden>
+    <button class="lightbox__close" id="lbClose" aria-label="Close">×</button>
+    <button class="lightbox__nav lightbox__prev" id="lbPrev" aria-label="Previous">‹</button>
+    <img class="lightbox__img" id="lbImg" alt="Solace Stay photo" />
+    <button class="lightbox__nav lightbox__next" id="lbNext" aria-label="Next">›</button>
+  </div>
+
+  <!-- ===================== TOAST ===================== -->
+  <div class="toast" id="toast" hidden></div>
+
+  <script src="assets/js/config.js?v=20260812a"></script>
+  <script src="assets/js/app.js?v=20260812a"></script>
+</body>
+</html>
