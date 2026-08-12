@@ -16,11 +16,10 @@ const CONFIG = {
   reservationFee: 1500,                       // editable — reservation fee per stay
 
   /* ---------- GCash payment (edit with YOUR details) ---------- */
-  gcashName: "YOUR GCASH ACCOUNT NAME",
-  gcashNumber: "YOUR GCASH NUMBER",
-  /* Placeholder QR. Replace with a real path once you add your QR image,
-     e.g. assets/img/gcash-qr.png  (keep the file in this repo or host it). */
-  gcashQrCode: "assets/img/gcash-qr-placeholder.svg",
+  gcashName: "DA*****E A** MA*I C.",
+  gcashNumber: "0908 235 ****",
+  /* Real QR image (downloaded from your Drive link into the repo). */
+  gcashQrCode: "assets/img/gcash-qr.png",
 
   /* ---------- Backend / integrations ---------- */
   /* Paste the deployed Google Apps Script Web App URL here (see README).
