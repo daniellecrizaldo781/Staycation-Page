@@ -222,19 +222,18 @@ h1,h2,h3,h4{font-family:var(--serif);font-weight:600;line-height:1.1;color:var(-
 .book__nav .btn{flex:1}
 
 /* ---------- Payment ---------- */
-.pay{display:grid;grid-template-columns:1fr;gap:1.6rem;max-width:880px;margin:0 auto}
-.pay__card{background:linear-gradient(160deg,var(--charcoal),#3d352b);color:var(--ivory);border-radius:var(--radius-lg);padding:2.4rem;text-align:center;box-shadow:var(--shadow-md)}
+.pay{display:grid;grid-template-columns:1fr 1fr;gap:1.6rem}
+.pay__card{background:linear-gradient(160deg,var(--charcoal),#3d352b);color:var(--ivory);border-radius:var(--radius-lg);padding:2rem;text-align:center;box-shadow:var(--shadow-md)}
 .pay__label{font-size:.74rem;letter-spacing:.24em;text-transform:uppercase;color:var(--sand)}
-.pay__amount{font-family:var(--serif);font-size:3rem;color:#fff;margin:.2rem 0 1.4rem}
-.pay__gcash{text-align:left;background:rgba(255,255,255,.06);border-radius:14px;padding:1rem 1.2rem;margin-bottom:1.6rem}
-.pay__gcash p{display:flex;justify-content:space-between;font-size:.92rem;padding:.3rem 0}
+.pay__amount{font-family:var(--serif);font-size:2.8rem;color:#fff;margin:.2rem 0 1.2rem}
+.pay__gcash{text-align:left;background:rgba(255,255,255,.06);border-radius:14px;padding:1rem 1.2rem;margin-bottom:1.2rem}
+.pay__gcash p{display:flex;justify-content:space-between;font-size:.88rem;padding:.25rem 0}
 .pay__gcash span{color:var(--sand)}
-.pay__gcash strong{color:#fff;letter-spacing:.02em;font-size:1rem}
-.pay__qr{background:var(--ivory);border-radius:18px;padding:2.2rem;text-align:center;max-width:420px;margin:0 auto}
-.pay__qr img{width:340px;height:340px;max-width:100%;object-fit:contain;margin:0 auto;border-radius:16px;background:#fff;padding:16px;border:3px solid var(--gold);box-shadow:0 10px 34px rgba(0,0,0,.22);display:block}
-.pay__qr-cap{font-size:1rem;color:var(--muted);margin-top:1.2rem;line-height:1.5;font-weight:600}
-.pay__download{margin-top:1.3rem}
-.pay__steps{text-align:left;margin-top:1.4rem;padding-left:1.2rem;color:var(--sand);font-size:.9rem;line-height:1.9}
+.pay__gcash strong{color:#fff;letter-spacing:.02em}
+.pay__qr{background:var(--ivory);border-radius:16px;padding:1.8rem;text-align:center}
+.pay__qr img{width:320px;height:320px;max-width:100%;object-fit:contain;margin:0 auto;border-radius:14px;background:#fff;padding:14px;border:2px solid var(--gold);box-shadow:0 8px 28px rgba(0,0,0,.18);display:block}
+.pay__qr-cap{font-size:.95rem;color:var(--muted);margin-top:1.1rem;line-height:1.5;font-weight:600}
+.pay__steps{text-align:left;margin-top:1.2rem;padding-left:1.2rem;color:var(--sand);font-size:.86rem;line-height:1.9}
 .upload{background:var(--ivory);border-radius:var(--radius-lg);padding:1.8rem}
 .upload__title{font-size:1.3rem;margin-bottom:.5rem}
 .upload__desc{font-size:.88rem;color:var(--muted);margin-bottom:1.2rem}
