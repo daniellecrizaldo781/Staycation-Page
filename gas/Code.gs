@@ -147,7 +147,7 @@ function sendConfirmationEmail(bookingId, p) {
     "See you soon,\n" +
     "The Solace Stay Team\n";
 
-  GmailApp.sendEmail(to, subject, body, { bcc: "daniellecrizaldo781@gmail.com" });
+  GmailApp.sendEmail(to, subject, body);
 }
 
 function prettyDate(s) {
