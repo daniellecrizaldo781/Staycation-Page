@@ -24,7 +24,7 @@ const CONFIG = {
   /* ---------- Backend / integrations ---------- */
   /* Paste the deployed Google Apps Script Web App URL here (see README).
      Until set, the site runs in DEMO mode with local availability. */
-  googleAppsScriptUrl: "https://script.google.com/macros/s/AKfycbyVA3D4gWV5x1B6LLkkAksO1B29XRpS7ouldbP0dq9-cYBzCWm9wkcbL157R9MiG9f6AA/exec",
+  googleAppsScriptUrl: "https://script.google.com/macros/s/AKfycbxQVlZ1eGKaDsQ6zDV_a9i3z7Sf-7gl9Sb5sOqhQQPnaI_HzllQVgbqfCaDtAdJQWYT8w/exec",
 
   /* These IDs are public (they live in the Web App URL already) but kept here
      for reference / owner-side tooling only. Safe to expose. */
