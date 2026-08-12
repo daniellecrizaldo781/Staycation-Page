@@ -20,6 +20,7 @@ function doGet(e) {
   try {
     if (action === "availability") return json(computeAvailability());
     if (action === "photos")      return json(getPhotoUrls());
+    if (action === "image")       return streamImage(e.parameter.id);
     if (action === "test")        return json(runDiagnostics());
     return json({ result: "error", message: "Unknown action: " + action });
   } catch (err) {
@@ -120,14 +121,31 @@ function handleBooking(e) {
 
 /* ----------------------------- Photos ----------------------------- */
 function getPhotoUrls() {
+  var scriptUrl = ScriptApp.getService().getUrl(); // this Web App's own URL
   var folder = DriveApp.getFolderById(PHOTO_FOLDER_ID);
   var files = folder.getFiles();
   var out = [];
   while (files.hasNext()) {
     var f = files.next();
-    out.push("https://drive.google.com/uc?export=view&id=" + f.getId());
+    // Route through the backend so browsers can render (no Google interstitial).
+    out.push(scriptUrl + "?action=image&id=" + f.getId());
   }
   return { result: "success", images: out };
+}
+
+/* Return a Drive image as base64 inside JSON so the browser <img> can render
+   it reliably (Google's Apps Script wrapper mangles raw binary Blob responses).
+   Frontend builds: data:<mime>;base64,<data> */
+function streamImage(id) {
+  if (!id) return json({ result: "error", message: "missing id" });
+  try {
+    var file = DriveApp.getFileById(id);
+    var blob = file.getBlob();
+    var b64 = Utilities.base64Encode(blob.getBytes());
+    return json({ result: "success", mime: blob.getContentType(), base64: b64 });
+  } catch (err) {
+    return json({ result: "error", message: String(err.message || err) });
+  }
 }
 
 /* ----------------------------- Helpers ----------------------------- */

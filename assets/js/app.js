@@ -59,19 +59,30 @@
 
   async function loadImages() {
     state.images = buildImageList();
-    // Try the Apps Script photo endpoint (lists Google Drive folder file IDs).
+    // Try the Apps Script photo endpoint (returns base64-image proxy URLs).
     const url = C.googleAppsScriptUrl;
     if (url && url.indexOf("YOUR_") !== 0) {
       try {
         const r = await fetch(url + "?action=photos&folderId=" + encodeURIComponent(C.photoFolderId));
         const j = await r.json();
         if (j && j.images && j.images.length) {
-          state.images = j.images; // array of direct, usable image URLs
+          // Each entry is a ?action=image&id= URL -> fetch + decode base64.
+          state.images = await Promise.all(
+            j.images.map(async (u) => {
+              try {
+                const ir = await fetch(u);
+                const ij = await ir.json();
+                if (ij && ij.result === "success" && ij.base64) {
+                  return "data:" + ij.mime + ";base64," + ij.base64;
+                }
+              } catch (e) {}
+              return u; // leave as-is if decode fails
+            })
+          );
         }
       } catch (e) { /* keep local fallback */ }
     }
     if (!state.images.length) {
-      // absolute last-resort neutral placeholder so layout never breaks
       state.images = ["https://picsum.photos/seed/solace/1200/800"];
     }
     paintImages();
