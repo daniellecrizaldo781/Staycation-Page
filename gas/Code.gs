@@ -88,9 +88,11 @@ function handleBooking(e) {
   }
 
   var sheet = getSheet();
+  // Column A is always the Booking ID (auto-filled). Fall back to a generated ID.
+  var bookingId = p.bookingId || ("STAY-" + new Date().getFullYear() + "-" + Math.floor(1000 + Math.random() * 9000));
   // Only these 12 columns are filled, and only when a customer books.
   var row = [
-    p.bookingId || "",            // A Customer Name (booking id)
+    bookingId,                    // A Booking ID (auto-filled)
     new Date(),                   // B Booking Date
     p.name || "",                 // C Name
     p.phone || "",                // D Number
@@ -105,7 +107,55 @@ function handleBooking(e) {
   ];
   sheet.appendRow(row);
 
-  return { result: "success", bookingId: p.bookingId, receiptLink: receiptLink };
+  // Send the customer a confirmation email (best-effort; never blocks the booking).
+  try {
+    sendConfirmationEmail(bookingId, p);
+  } catch (err) {
+    // email failure shouldn't fail the booking
+  }
+
+  return { result: "success", bookingId: bookingId, receiptLink: receiptLink };
+}
+
+function sendConfirmationEmail(bookingId, p) {
+  var to = p.email;
+  if (!to) return;
+  var name = p.name || "Guest";
+  var checkin = prettyDate(p.checkin);
+  var checkout = prettyDate(p.checkout);
+  var nights = p.nights || "—";
+  var fee = p.fee || "—";
+
+  var subject = "Your Solace Stay is booked! ✨ Get ready to unwind, " + name + "!";
+
+  var body =
+    "Hi " + name + ",\n\n" +
+    "Great news — your little escape is officially on the calendar! 🌿 We're so excited to host you at Solace Stay.\n\n" +
+    "Here are your reservation details:\n" +
+    "----------------------------------------\n" +
+    "Booking ID : " + bookingId + "\n" +
+    "Check-in   : " + checkin + "\n" +
+    "Check-out  : " + checkout + "\n" +
+    "Nights     : " + nights + "\n" +
+    "Reservation Fee : ₱" + fee + "\n" +
+    "----------------------------------------\n\n" +
+    "What's next?\n" +
+    "1. Settle your reservation fee via GCash (scan the QR in your booking page).\n" +
+    "2. Upload your payment receipt — we'll confirm your stay once it's reviewed.\n" +
+    "3. Start packing! Cozy mornings, slow evenings, and memories worth keeping are waiting for you. ☕🛏️\n\n" +
+    "If you have any questions, just hit reply — we're here to help.\n\n" +
+    "See you soon,\n" +
+    "The Solace Stay Team\n";
+
+  GmailApp.sendEmail(to, subject, body);
+}
+
+function prettyDate(s) {
+  if (!s) return "—";
+  try {
+    var d = new Date(s);
+    return d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+  } catch (e) { return s; }
 }
 
 function getPhotoUrls() {
